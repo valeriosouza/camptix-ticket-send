@@ -1,4 +1,4 @@
-wpcheckin
+wpcheck.in
 ===========
 
 Será um sistema independente para ajudar a acelerar o processo de checkin do WordCamp, com um site independente para cada edição e versão mobile.
