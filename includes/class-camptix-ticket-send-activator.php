@@ -6,8 +6,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
+ * @package    Camptix_Ticket_Send
+ * @subpackage Camptix_Ticket_Send/includes
  */
 
 /**
@@ -16,11 +16,11 @@
  * This class defines all code necessary to run during the plugin's activation.
  *
  * @since      1.0.0
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
+ * @package    Camptix_Ticket_Send
+ * @subpackage Camptix_Ticket_Send/includes
  * @author     Your Name <email@example.com>
  */
-class Plugin_Name_Activator {
+class Camptix_Ticket_Send_Activator {
 
 	/**
 	 * Short Description. (use period)
@@ -30,7 +30,28 @@ class Plugin_Name_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
+		global $cts_db_version;
+		$cts_db_version = '1.0';
+		global $wpdb;
 
+   		$table_name = $wpdb->prefix . "camptix_send"; 
+   		$charset_collate = $wpdb->get_charset_collate();
+
+		$sql = "CREATE TABLE $table_name (
+		  id mediumint(9) NOT NULL AUTO_INCREMENT,
+		  ticket_type varchar(255) DEFAULT '' NOT NULL,
+		  first_name varchar(255) DEFAULT '' NOT NULL,
+		  last_name varchar(255) DEFAULT '' NOT NULL,
+		  email varchar(255) DEFAULT '' NOT NULL,
+		  date_buy datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+		  situation varchar(255) DEFAULT '' NOT NULL,
+		  sended INT NOT NULL,
+		  UNIQUE KEY id (id)
+		) $charset_collate;";
+
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		dbDelta( $sql );
+		add_option( 'cts_db_version', $cts_db_version );
 	}
 
 }
