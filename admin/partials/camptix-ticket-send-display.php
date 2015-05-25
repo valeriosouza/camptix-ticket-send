@@ -25,7 +25,28 @@
      	$table_name = $wpdb->prefix . 'camptix_send';
      	$ticket_count = $wpdb->get_var( "SELECT COUNT(*) FROM $table_name" );
 		echo "<p>Tickets will be sent to <strong>".$ticket_count."</strong> users.</p>";
+
+		$screen = $_GET["send"];
+
+		if ($screen == 'true') {
+			$active_rows = $wpdb->get_results(
+				"SELECT * FROM $table_name"
+			);
+			foreach ($active_rows as $active_row){
+				//echo $active_row->the_title;
+				print_r($active_row);
+				wp_mail( $active_row->email, 'Titulo teste', 'corpo teste' );
+			}
+		}
     ?>
+
+
+
+
+
+
+
+
     <form method="post" action="options.php">
         <?php
             settings_fields( 'notify_users_email' );
