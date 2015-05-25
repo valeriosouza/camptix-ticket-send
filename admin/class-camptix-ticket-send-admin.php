@@ -52,6 +52,9 @@ class Camptix_Ticket_Send_Admin {
 		$this->camptix_ticket_send = $camptix_ticket_send;
 		$this->version = $version;
 
+		// Add the welcome page and menu item.
+		add_action( 'admin_menu', array( $this, 'menu_page' ),1 );
+
 	}
 
 	/**
@@ -98,6 +101,22 @@ class Camptix_Ticket_Send_Admin {
 
 		wp_enqueue_script( $this->camptix_ticket_send, plugin_dir_url( __FILE__ ) . 'js/camptix-ticket-send-admin.js', array( 'jquery' ), $this->version, false );
 
+	}
+
+	public function menu_page() {
+
+		add_submenu_page( 
+			'index.php', 
+			'Camptix Ticket Send', 
+			'Camptix Ticket Send', 
+			'manage_options', 
+			'camptix_ticket_send_admin', 
+			array( $this, 'display_menu_page' )
+		);
+	}
+
+	public function display_menu_page() {
+		include_once 'partials/camptix-ticket-send-display.php';
 	}
 
 }
